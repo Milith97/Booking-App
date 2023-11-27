@@ -3,10 +3,10 @@ import { View, Text } from 'react-native';
 
 const WeatherCard = ({ weatherData }) => {
   return (
-    <View>
-      <Text>City: {weatherData.name}</Text>
-      <Text>Temperature: {weatherData.main.temp}°C</Text>
-      <Text>Description: {weatherData.weather[0].description}</Text>
+    <View style={{marginTop:50}}>
+      <Text  style={{ fontSize: 25 }} >City                 : {weatherData.name}</Text>
+      <Text  style={{ fontSize: 25 }}>Temperature : {weatherData.main.temp}°C</Text>
+      <Text  style={{ fontSize: 25 }}>Description    : {weatherData.weather[0].description}</Text>
     </View>
   );
 };
