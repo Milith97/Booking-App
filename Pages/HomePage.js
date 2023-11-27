@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TextInput, Button, LayoutAnimation, StyleSheet, TouchableOpacity, Image, StatusBar, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, Button, LayoutAnimation, StyleSheet, TouchableOpacity, Image, StatusBar, SafeAreaView, ScrollView } from 'react-native';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6Icon from 'react-native-vector-icons/FontAwesome6';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import { theme } from '../component/theme';
 
 const HomePage = ({ navigation }) => {
@@ -71,13 +72,13 @@ const HomePage = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1, position: 'relative' }}>
       <StatusBar style="#003238" />
       <Image blurRadius={70} style={{ position: 'absolute', width: '100%', height: '100%', }}
         source={require('../assets/img/wbg.png')}
       />
       <SafeAreaView style={{ display: 'flex', flex: 1, }}>
-        {/* search section */}
+        {/*-------------------------------------------- search section ----------------------------------------------*/}
         <View style={{ height: 50, margin: 10, position: 'relative', zindex: 50, }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 50, backgroundColor: showSearch ? theme.bgWhite(0.2) : 'transparent', }}
           >
@@ -137,7 +138,7 @@ const HomePage = ({ navigation }) => {
                           ...borderClass,
                         }}>
                         <FontAwesome6Icon name="location-dot" size={25} color="gray" ></FontAwesome6Icon>
-                        <Text style={{ color: 'black', fontSize: 16, marginLeft: 8 }}>London, United Kingdom</Text>
+                        <Text style={{ color: 'black', fontSize: 16, marginLeft: 8 }}>Colombo, Sri jayawardhanapura kotte</Text>
                       </TouchableOpacity>
                     )
                   })
@@ -146,9 +147,196 @@ const HomePage = ({ navigation }) => {
             ) : null
           }
         </View>
-      </SafeAreaView>
 
-      <Text style={{ fontSize: 30 }}>Hellooo,</Text>
+        {/*---------------------------------------- Forecast section-------------------------------------------- */}
+        <View style={{ marginLeft: 16, justifyContent: 'space-around', flex: 1, marginBottom: 2, }}>
+          {/* Location */}
+          <View style={{ justifyContent: 'center', }}>
+            <Text style={{ color: 'white', textAlign: 'center', fontSize: 24, fontWeight: 'bold' }}>
+              Sri Lanka,
+              <Text style={{ fontSize: 18, fontWeight: '600', color: '#ccc' }}>
+                Kottawa,Sri Lanka
+              </Text>
+            </Text>
+          </View>
+          {/* Weather image*/}
+          <View style={{ flexDirection: 'row', justifyContent: 'center', }}>
+            <Image
+              source={require('../assets/img/weatherbkrem.png')}
+              style={{ width: 180, height: 180 }}
+            />
+          </View>
+
+          {/* degree celcius */}
+          <View style={{ marginVertical: 8, }}>
+            <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'white', fontSize: 78, marginLeft: 5 }}>
+              13&#176;
+            </Text>
+            <Text style={{ textAlign: 'center', color: 'white', fontSize: 18, letterSpacing: 2 }}>
+              Partly cloudy
+            </Text>
+          </View>
+
+          {/* other stats */}
+          <View style={{ flexDirection: 'row', gap: 55, justifyContent: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <FontAwesome5Icon name="wind" size={25} color="gray" style={{ width: 24, height: 24, }}></FontAwesome5Icon>
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>22km</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5 }}>
+              <FontAwesome6Icon name="droplet" size={25} color="gray" style={{ width: 24, height: 24, }}></FontAwesome6Icon>
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>28%</Text>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+              <FontAwesome6Icon name="cloud-sun" size={25} color="gray" style={{ width: 24, height: 24, }}></FontAwesome6Icon>
+              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>9:23 AM</Text>
+            </View>
+          </View>
+          {/* forecast for next days */}
+          <View style={{ marginBottom: 2, paddingVertical: 6,gap:20, }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 5 }}>
+              <FontAwesome6Icon name="calendar-days" size={25} color="gray" style={{ width: 24, height: 24, }}></FontAwesome6Icon>
+              <Text style={{ color: 'white', fontSize: 16 }}>Daily forecast</Text>
+            </View>
+            <ScrollView
+              horizontal
+              contentContainerStyle={{ paddingHorizontal: 15 }}
+              showsHorizontalScrollIndicator={false}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 80,
+                  borderRadius: 20,
+                  paddingVertical: 12,
+                  marginRight: 4,
+                  backgroundColor: theme.bgWhite(0.15),
+                }}
+              >
+                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Text style={{ color: 'white' }}>Monday</Text>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+                  13&#176;
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 80,
+                  borderRadius: 20,
+                  paddingVertical: 12,
+                  marginRight: 4,
+                  backgroundColor: theme.bgWhite(0.15),
+                }}
+              >
+                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Text style={{ color: 'white' }}>Tuesday</Text>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+                  09&#176;
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 80,
+                  borderRadius: 20,
+                  paddingVertical: 12,
+                  marginRight: 4,
+                  backgroundColor: theme.bgWhite(0.15),
+                }}
+              >
+                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Text style={{ color: 'white' }}>Wednesday</Text>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+                  18&#176;
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 80,
+                  borderRadius: 20,
+                  paddingVertical: 12,
+                  marginRight: 4,
+                  backgroundColor: theme.bgWhite(0.15),
+                }}
+              >
+                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Text style={{ color: 'white' }}>Thursday</Text>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+                  21&#176;
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 80,
+                  borderRadius: 20,
+                  paddingVertical: 12,
+                  marginRight: 4,
+                  backgroundColor: theme.bgWhite(0.15),
+                }}
+              >
+                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Text style={{ color: 'white' }}>Friday</Text>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+                  12&#176;
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 80,
+                  borderRadius: 20,
+                  paddingVertical: 12,
+                  marginRight: 4,
+                  backgroundColor: theme.bgWhite(0.15),
+                }}
+              >
+                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Text style={{ color: 'white' }}>Sataday</Text>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+                  15&#176;
+                </Text>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: 80,
+                  borderRadius: 20,
+                  paddingVertical: 12,
+                  marginRight: 4,
+                  backgroundColor: theme.bgWhite(0.15),
+                }}
+              >
+                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Text style={{ color: 'white' }}>Sunday</Text>
+                <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
+                  22&#176;
+                </Text>
+              </View>
+            </ScrollView>
+          </View>
+
+
+        </View>
+      </SafeAreaView >
+
+      {/* <Text style={{ fontSize: 30 }}>Hellooo,</Text>
       <Text style={{ fontSize: 30 }}>Colombo</Text>
 
       <View>
@@ -178,7 +366,7 @@ const HomePage = ({ navigation }) => {
             </View>
           </View>
         }
-      </View>
+      </View> */}
 
       {/* <View style={styles.header}>
         <Animatable.Image
@@ -200,16 +388,12 @@ const HomePage = ({ navigation }) => {
         />
         <Button title="Get Weather" onPress={getWeather} />
       </View> */}
-    </View>
+    </View >
   );
 };
 
 export default HomePage;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative'
-
-  },
+ 
 })
