@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground,StatusBar } from 'react-native'
 import React from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import * as Animatable from 'react-native-animatable';
@@ -6,6 +6,7 @@ import * as Animatable from 'react-native-animatable';
 export default function WelcomPage({ navigation }) {
     return (
         <View style={styles.container}>
+             <StatusBar backgroundColor='#D6D8E5' barStyle="light-content"></StatusBar>
             <View style={{ flex: 3, alignItems: 'center', justifyContent: 'center', width: 140 }}>
                 <Animatable.Image
                     animation="bounceInLeft"

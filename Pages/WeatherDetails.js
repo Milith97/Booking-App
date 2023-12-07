@@ -5,7 +5,6 @@ import { Button } from 'react-native-paper';
 
 const WeatherDetails = ({ route, navigation }) => {
     const { weatherData } = route.params;
-
     return (
         <View style={styles.container}>
             <View >
@@ -17,8 +16,6 @@ const WeatherDetails = ({ route, navigation }) => {
                 </Button>
             </View>
         </View>
-
-
     );
 };
 

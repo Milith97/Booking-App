@@ -18,9 +18,7 @@ const HomePage = ({ navigation }) => {
 
   useEffect(() => {
     async function startFetching() {
-      console.log('====================================');
       console.log(1);
-      console.log('====================================');
       setWebsiteType("open-api")
       const weatherData = await getWeather()
       setWeather(weatherData)
@@ -31,11 +29,35 @@ const HomePage = ({ navigation }) => {
       setWeatherObject(data)
     }
     // startFetching()
-    // startWeatherapi()
+    startWeatherapi()
     return () => {
 
     }
   }, [])
+
+
+  useEffect(() => {
+    async function getWeatherData() {
+      const apiKey = 'f2916755f50c84a1edea6e72eeb606b7'; // Replace with your OpenWeatherMap API key
+      const lat = "6.927079";
+      const lon = "79.861244";
+
+      try {
+        const apiurl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+        const response = await axios.get(apiurl);
+        const weatherData = {
+          temperature: response.data.main.temp,
+          description: response.data.weather[0].description,
+        };
+        setWeather(weatherData);
+      } catch (error) {
+        console.error('Error fetching weather data:', error.response?.data);
+        console.error('Error fetching weather data:', error.response?.message);
+      }
+    }
+
+    getWeatherData();
+  }, []);
 
   const getWeather = async () => {
     const lat = "6.927079"
@@ -70,16 +92,17 @@ const HomePage = ({ navigation }) => {
   const handleLocation = (loc) => {
     console.log('loactions:,loc');
   }
+  const {location, current} = weather;
 
   return (
     <View style={{ flex: 1, position: 'relative' }}>
-      <StatusBar style="#003238" />
+      <StatusBar backgroundColor='#003238' barStyle="light-content"></StatusBar>
       <Image blurRadius={70} style={{ position: 'absolute', width: '100%', height: '100%', }}
         source={require('../assets/img/wbg.png')}
       />
       <SafeAreaView style={{ display: 'flex', flex: 1, }}>
         {/*-------------------------------------------- search section ----------------------------------------------*/}
-        <View style={{ height: 50, margin: 10, position: 'relative', zindex: 50, }}>
+        <View style={{ height: 50, margin: 10, position: 'relative', zIndex: 50, }}>
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', borderRadius: 50, backgroundColor: showSearch ? theme.bgWhite(0.2) : 'transparent', }}
           >
             {
@@ -153,9 +176,9 @@ const HomePage = ({ navigation }) => {
           {/* Location */}
           <View style={{ justifyContent: 'center', }}>
             <Text style={{ color: 'white', textAlign: 'center', fontSize: 24, fontWeight: 'bold' }}>
-              Sri Lanka,
+              {weather.name}
               <Text style={{ fontSize: 18, fontWeight: '600', color: '#ccc' }}>
-                Kottawa,Sri Lanka
+                {weatherObject.location?.name}
               </Text>
             </Text>
           </View>
@@ -170,10 +193,10 @@ const HomePage = ({ navigation }) => {
           {/* degree celcius */}
           <View style={{ marginVertical: 8, }}>
             <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'white', fontSize: 78, marginLeft: 5 }}>
-              13&#176;
+            {current?.temp_c}&#176;
             </Text>
             <Text style={{ textAlign: 'center', color: 'white', fontSize: 18, letterSpacing: 2 }}>
-              Partly cloudy
+              {weather.description}
             </Text>
           </View>
 
@@ -192,8 +215,9 @@ const HomePage = ({ navigation }) => {
               <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16 }}>9:23 AM</Text>
             </View>
           </View>
-          {/* forecast for next days */}
-          <View style={{ marginBottom: 2, paddingVertical: 6,gap:20, }}>
+
+          {/*-------------------------------------- forecast for next days ------------------------------------------*/}
+          <View style={{ marginBottom: 2, paddingVertical: 6, gap: 20, }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 5 }}>
               <FontAwesome6Icon name="calendar-days" size={25} color="gray" style={{ width: 24, height: 24, }}></FontAwesome6Icon>
               <Text style={{ color: 'white', fontSize: 16 }}>Daily forecast</Text>
@@ -215,7 +239,7 @@ const HomePage = ({ navigation }) => {
                   backgroundColor: theme.bgWhite(0.15),
                 }}
               >
-                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Image source={require('../assets/img/card1.png')} style={{ width: 70, height: 50 }} />
                 <Text style={{ color: 'white' }}>Monday</Text>
                 <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
                   13&#176;
@@ -233,7 +257,7 @@ const HomePage = ({ navigation }) => {
                   backgroundColor: theme.bgWhite(0.15),
                 }}
               >
-                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Image source={require('../assets/img/card2.png')} style={{ width: 75, height: 50 }} />
                 <Text style={{ color: 'white' }}>Tuesday</Text>
                 <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
                   09&#176;
@@ -251,7 +275,7 @@ const HomePage = ({ navigation }) => {
                   backgroundColor: theme.bgWhite(0.15),
                 }}
               >
-                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Image source={require('../assets/img/card3.png')} style={{ width: 70, height: 50 }} />
                 <Text style={{ color: 'white' }}>Wednesday</Text>
                 <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
                   18&#176;
@@ -269,7 +293,7 @@ const HomePage = ({ navigation }) => {
                   backgroundColor: theme.bgWhite(0.15),
                 }}
               >
-                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Image source={require('../assets/img/card4.png')} style={{ width: 70, height: 50 }} />
                 <Text style={{ color: 'white' }}>Thursday</Text>
                 <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
                   21&#176;
@@ -287,7 +311,7 @@ const HomePage = ({ navigation }) => {
                   backgroundColor: theme.bgWhite(0.15),
                 }}
               >
-                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Image source={require('../assets/img/card5.png')} style={{ width: 70, height: 50 }} />
                 <Text style={{ color: 'white' }}>Friday</Text>
                 <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
                   12&#176;
@@ -305,7 +329,7 @@ const HomePage = ({ navigation }) => {
                   backgroundColor: theme.bgWhite(0.15),
                 }}
               >
-                <Image source={require('../assets/img/weatherbkrem.png')} style={{ width: 44, height: 44 }} />
+                <Image source={require('../assets/img/card6.png')} style={{ width: 65, height: 45 }} />
                 <Text style={{ color: 'white' }}>Sataday</Text>
                 <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
                   15&#176;
@@ -395,5 +419,5 @@ const HomePage = ({ navigation }) => {
 export default HomePage;
 
 const styles = StyleSheet.create({
- 
+
 })
