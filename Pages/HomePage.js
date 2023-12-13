@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TextInput, Button, LayoutAnimation, StyleSheet, TouchableOpacity, Image, StatusBar, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, LayoutAnimation, StyleSheet, TouchableOpacity, Image, StatusBar, SafeAreaView, ScrollView, Pressable } from 'react-native';
 import axios from 'axios';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -92,7 +92,7 @@ const HomePage = ({ navigation }) => {
   const handleLocation = (loc) => {
     console.log('loactions:,loc');
   }
-  const {location, current} = weather;
+  const { location, current } = weather;
 
   return (
     <View style={{ flex: 1, position: 'relative' }}>
@@ -190,15 +190,30 @@ const HomePage = ({ navigation }) => {
             />
           </View>
 
+          <View>
+            <View style={{ flex: 1, flexDirection: 'row', }}>
+              <View style={{}}>
+                <TouchableOpacity style={styles.btn1} onPress={() => { navigation.navigate('Employeer1') }} >                                             
+                  <Text style={styles.btnText}>Employeer 1</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View>
+                <TouchableOpacity style={styles.btn1} onPress={() => { navigation.navigate('Employeer2') }}>
+                  <Text style={styles.btnText}>Employeer 2</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
           {/* degree celcius */}
-          <View style={{ marginVertical: 8, }}>
+          {/* <View style={{ marginVertical: 8, }}>
             <Text style={{ textAlign: 'center', fontWeight: 'bold', color: 'white', fontSize: 78, marginLeft: 5 }}>
-            {current?.temp_c}&#176;
+              {current?.temp_c}&#176;
             </Text>
             <Text style={{ textAlign: 'center', color: 'white', fontSize: 18, letterSpacing: 2 }}>
               {weather.description}
             </Text>
-          </View>
+          </View> */}
 
           {/* other stats */}
           <View style={{ flexDirection: 'row', gap: 55, justifyContent: 'center' }}>
@@ -216,11 +231,14 @@ const HomePage = ({ navigation }) => {
             </View>
           </View>
 
+
           {/*-------------------------------------- forecast for next days ------------------------------------------*/}
           <View style={{ marginBottom: 2, paddingVertical: 6, gap: 20, }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 5 }}>
               <FontAwesome6Icon name="calendar-days" size={25} color="gray" style={{ width: 24, height: 24, }}></FontAwesome6Icon>
-              <Text style={{ color: 'white', fontSize: 16 }}>Daily forecast</Text>
+              <Pressable style={styles.buttonText} onPress={() => { navigation.navigate('ShowApiData') }}>
+                <Text style={{ color: 'white', fontSize: 16 }}>Daily forecast</Text>
+              </Pressable>
             </View>
             <ScrollView
               horizontal
@@ -419,5 +437,14 @@ const HomePage = ({ navigation }) => {
 export default HomePage;
 
 const styles = StyleSheet.create({
+  btn1: {
+    backgroundColor: '#BED1D9',
+    margin: '5%',
+    borderRadius: 8,
+    width: 110,
+    height: 30,
+    justifyContent: 'center',
+    alignItems:'center'
 
+  },
 })

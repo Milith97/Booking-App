@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, StatusBar, TextInput, Pressable, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SignIn({ navigation }) {
   const [email, setEmail] = useState('');
@@ -15,31 +15,41 @@ export default function SignIn({ navigation }) {
         admin_correo: email,
         admin_contrasena: password,
       });
-      console.log(response.data);
 
       if (response.data.code === 200) {
         console.log('Login successful');
+        
+        // Store the token in AsyncStorage
+        await AsyncStorage.setItem('token', response.data.message);
+
+        // Retrieve the token key
+        const tokenKey = 'token';
+
+        // Get the token from AsyncStorage
+        const storedToken = await AsyncStorage.getItem(tokenKey);
+
+        console.log('Retrieved Token:', storedToken);
+
         navigation.navigate('HomePage');
       } else {
         Toast.show({
           type: ALERT_TYPE.WARNING,
           title: 'WARNING',
           textBody: 'Login failed. Please check your credentials.',
-        })
+        });
       }
-
     } catch (error) {
       if (error.response) {
         // console.log(error.response.data, '1');
         // console.log(error.response.status, '2');
         // console.log(error.response.headers, '3');
 
-      
       } else {
         console.log(error.message);
       }
     }
   };
+
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor='#4B1400' barStyle='light-content' />
@@ -88,7 +98,7 @@ export default function SignIn({ navigation }) {
 
         <View style={styles.bottomText}>
           <Text style={{ color: '#fff',fontWeight:'500',fontSize:15 }}>Don't Have An Account?
-            <TouchableOpacity onPress={() => { navigation.navigate('Registation') }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('HomePage') }}>
               <Text style={{
                 color: '#000',
                 fontWeight:'500',
@@ -99,7 +109,6 @@ export default function SignIn({ navigation }) {
         </View>
 
       </View>
-
 
     </View>
   );
@@ -157,8 +166,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   }
 });
-
-
 
 
 

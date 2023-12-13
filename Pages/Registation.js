@@ -4,33 +4,47 @@ import axios from 'axios';
 import { Button } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Registration({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleRegister = async () => {
-    try {
-      const response = await axios.post('http://10.0.2.2:3000/admins/signin', {
-        admin_nombre: name,
-        admin_correo: email,
-        admin_contrasena: password,
-      });
-      if (response.data.code === 201) {
-        console.log('Registration successful');
-       
+    const handleRegister = async () => {
+      try {
+        const response = await axios.post('http://10.0.2.2:3000/admins/signin', {
+          admin_nombre: name,
+          admin_correo: email,
+          admin_contrasena: password,
+        });
+  
+        if (response.data.code === 201) {
+          console.log('Registration successful');
+  
+          // Store the token in AsyncStorage
+          await AsyncStorage.setItem('token', response.data.message);
+  
+          // Retrieve the token key
+          const tokenKey = 'token';
+  
+          // Get the token from AsyncStorage
+          const storedToken = await AsyncStorage.getItem(tokenKey);
+  
+          console.log('Retrieved Token:', storedToken);
+  
           navigation.navigate('SignIn');
-      } else {
-        console.log('Registration failed');
-        Alert.alert('Registration Failed', 'Please check your registration details and try again.');
-      }
-    } catch (error) {
+        } else {
+          console.log('Registration failed');
+          Alert.alert('Registration Failed', 'Please check your registration details and try again.');
+        }
+      } catch (error) {
       console.error('API Error:', error.message);
       Alert.alert('Error', 'An error occurred. Please try again later.');
     }
   };
-  
+
+
   return (
     <View style={styles.container}>
        <StatusBar backgroundColor='#281400' barStyle="light-content"></StatusBar>
